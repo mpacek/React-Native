@@ -7,6 +7,7 @@ export default () => {
 
   const searchApi = async searchTerm => {
     try {
+      seterrorMessage('');
       const response = await yelp.get('/search', {
         params: {
           term: searchTerm,
@@ -21,8 +22,8 @@ export default () => {
   };
 
   useEffect(() => {
-    searchApi('pasta', []);
-  });
+    searchApi('pasta');
+  }, []);
 
   return [searchApi, results, errorMessage];
 };

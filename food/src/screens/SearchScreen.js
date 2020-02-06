@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, ScrollView } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultList from '../components/ResultsList';
@@ -15,21 +15,32 @@ const SearchScreen = () => {
   };
 
   return (
-    <View>
+    <>
       <SearchBar
         term={term}
         onTermChange={setTerm}
         onTermSubmit={() => searchApi(term)}
       />
-      {errorMessage ? <Text>{errorMessage}</Text> : null}
-      <Text>We have found {results.length} results</Text>
-      <ResultList results={filterResultsByPrice('$')} title="Cost Effective" />
-      <ResultList results={filterResultsByPrice('$$')} title="Bit Pricier" />
-      <ResultList results={filterResultsByPrice('$$$')} title="Big Spender" />
-    </View>
+      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+      <ScrollView>
+        <ResultList
+          results={filterResultsByPrice('$')}
+          title="Cost Effective"
+        />
+        <ResultList results={filterResultsByPrice('$$')} title="Bit Pricier" />
+        <ResultList results={filterResultsByPrice('$$$')} title="Big Spender" />
+      </ScrollView>
+    </>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  error: {
+    marginLeft: 15,
+    marginBottom: 15,
+    color: 'red',
+    fontWeight: 'bold',
+  },
+});
 
 export default SearchScreen;
